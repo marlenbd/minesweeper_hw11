@@ -18,33 +18,37 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 
 public class GameActivity extends AppCompatActivity {
-    public static int time = 0;
+    private int gameTime = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-
+        gameTime = 0;
         // find which level to activate //
         String level = getIntent().getStringExtra("level");
 
-        tickEndlessly();
+        tickForEachGameRun();
         switch (level) {
             case "beginner":
-                TextView myTime = (( TextView)findViewById(R.id.textBombs));
-                myTime.setText("5 bombs");
+                TextView myBombs = (( TextView)findViewById(R.id.textBombs));
+                myBombs.setText("5 bombs");
                 GameEngine.setLevel(5, 10 ,10);
+                GameEngine.getInstance().setRunning(true);
                 GameEngine.getInstance().createGrid(this);
                 break;
             case "skilled":
-                myTime = (( TextView)findViewById(R.id.textBombs));
-                myTime.setText("10 bombs");
+                myBombs = (( TextView)findViewById(R.id.textBombs));
+                myBombs.setText("10 bombs");
                 GameEngine.setLevel(10, 10 ,10);
+                GameEngine.getInstance().setRunning(true);
                 GameEngine.getInstance().createGrid(this);
                 break;
             case "expert":
-                myTime = (( TextView)findViewById(R.id.textBombs));
-                myTime.setText("10 bombs");
+                myBombs = (( TextView)findViewById(R.id.textBombs));
+                myBombs.setText("10 bombs");
                 GameEngine.setLevel(10, 5 ,5);
+                GameEngine.getInstance().setRunning(true);
                 GameEngine.getInstance().createGrid(this);
                 break;
         }
@@ -59,7 +63,13 @@ public class GameActivity extends AppCompatActivity {
         });
     }
 
-    private void tickEndlessly() {
+    @Override
+    protected void onStart() {
+        super.onStart();
+        gameTime = 0;
+    }
+
+    private void tickForEachGameRun() {
         Handler handler = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message message) {
@@ -68,7 +78,12 @@ public class GameActivity extends AppCompatActivity {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                tickEndlessly();
+                if (GameEngine.getInstance().isRunning()) {
+
+                    tickForEachGameRun();
+                } else {
+                    gameTime = 0;
+                }
                 return false;
             }
         });
@@ -78,9 +93,12 @@ public class GameActivity extends AppCompatActivity {
         message.setData(messageData);
         handler.sendMessageDelayed(message, 1000);
     }
+
     private void tick() throws ParseException {
+        gameTime++;
+        GameEngine.getInstance().setGameTime(gameTime);
+
         TextView myTime = (TextView)findViewById(R.id.textTimer);
-        myTime.setText("" + (((Number) NumberFormat.getInstance().parse(myTime.getText().toString())).intValue()+1));
-        time = Integer.parseInt(myTime.getText().toString());
+        myTime.setText("" + gameTime);
     }
 }

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Gravity;
+import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +17,10 @@ import com.marlenafeka.minesweeper_hw1.views.grid.Cell;
 
 public class GameEngine {
     private static GameEngine instance;
+    private int gameTime = 0;
+    private boolean isRunning = false;
+    private String level;
+
 
     public static int bomb_number = 10;
     public static int width = 10;
@@ -34,8 +39,17 @@ public class GameEngine {
 
     private GameEngine(){}
 
-    public void createGrid( Context context) {
-        Log.e("GameEngine","createGrid Is Working");
+    public boolean isRunning() {
+        return isRunning;
+    }
+
+    public void setRunning(boolean running) {
+        isRunning = running;
+    }
+
+    public void createGrid(Context context) {
+
+
         this.context  = context;
         // Create the grid and store it
         int[][] GeneratedGrid = Generator.generate(bomb_number, width, height);
@@ -100,20 +114,26 @@ public class GameEngine {
                 }
             }
         }
-        if( bombNotFound == 0 && notRevealed != 0 ) {
-            AlertDialog.Builder gameLostAlert = new AlertDialog.Builder(context);
-            gameLostAlert.setMessage("You're Awesome!")
+        if( bombNotFound == 0) {//) && notRevealed != 0 ) {
+            AlertDialog.Builder gameWonAlert = new AlertDialog.Builder(context);
+            gameWonAlert.setMessage("You're Awesome!")
                     .setCancelable(false)
                     .setPositiveButton("I know..", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             dialogInterface.dismiss();
-                            context.startActivity(new Intent(context, EndGameActivity.class));
+                            Intent intent = new Intent(context, EndGameActivity.class);
+                            intent.putExtra("time", gameTime);
+                            intent.putExtra("winner", "yes");
+                            context.startActivity(intent);
+                            //context.startActivity(new Intent(context, EndGameActivity.class));
                         }
                     });
-            AlertDialog alert = gameLostAlert.create();
+            AlertDialog alert = gameWonAlert.create();
             alert.getWindow().setGravity(Gravity.TOP);
             alert.show();
+
+            GameEngine.getInstance().setRunning(false);
         }
         return false;
     }
@@ -122,6 +142,8 @@ public class GameEngine {
         boolean isFlagged = getCellAt(x,y).isFlagged();
         getCellAt(x,y).setFlagged(!isFlagged);
         getCellAt(x,y).invalidate();
+
+        checkEnd();
     }
 
     private void onGameLost() {
@@ -139,17 +161,45 @@ public class GameEngine {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
-                context.startActivity(new Intent(context, EndGameActivity.class));
+                Intent intent = new Intent(context, EndGameActivity.class);
+                intent.putExtra("time", gameTime);
+                intent.putExtra("winner", "no");
+                context.startActivity(intent);
+                //context.startActivity(new Intent(context, EndGameActivity.class).putExtra("time",""));
             }
         });
         AlertDialog alert = gameLostAlert.create();
         alert.getWindow().setGravity(Gravity.TOP);
         alert.show();
+
+        GameEngine.getInstance().setRunning(false);
     }
 
     public static void setLevel(int bomb_number, int width, int height) {
         GameEngine.bomb_number = bomb_number;
         GameEngine.width = width;
         GameEngine.height = height;
+
+        if( bomb_number == 5 ) {
+            getInstance().level = "beginner";
+        } else {
+            if( width == 10 ) {
+                getInstance().level = "skilled";
+            } else {
+                getInstance().level = "expert";
+            }
+        }
     }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setGameTime(int gameTime) {
+        this.gameTime = gameTime;
+    }
+
+/*    public int getGameTime() {
+        return gameTime;
+    }*/
 }

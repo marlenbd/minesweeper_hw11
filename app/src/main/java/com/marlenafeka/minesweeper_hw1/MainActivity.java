@@ -6,14 +6,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.marlenafeka.minesweeper_hw1.views.grid.Grid;
+
 public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.intro_activity);
-
-        //GameActivity.time = 0;
 
         Button buttonBeginner = (Button)findViewById(R.id.buttonBeginner);
         Button buttonSkilled = (Button)findViewById(R.id.buttonSkilled);
