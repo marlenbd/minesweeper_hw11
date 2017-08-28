@@ -48,13 +48,12 @@ public class GameEngine {
     }
 
     public void createGrid(Context context) {
-
-
         this.context  = context;
         // Create the grid and store it
         int[][] GeneratedGrid = Generator.generate(bomb_number, width, height);
         PrintGrid.print(GeneratedGrid, width, height);
         setGrid(context, GeneratedGrid);
+
     }
 
     private void setGrid( final Context context, final int[][] grid ) {

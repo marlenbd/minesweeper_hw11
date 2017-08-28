@@ -35,6 +35,7 @@ public abstract class BaseCell extends View{
         }
 
         this.value = value;
+        this.value = value;
     }
 
     public boolean isBomb() {
