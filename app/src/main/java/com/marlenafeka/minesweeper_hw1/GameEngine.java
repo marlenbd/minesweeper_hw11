@@ -15,7 +15,7 @@ public class GameEngine {
     private static GameEngine instance;
     private int gameTime = 0;
     private boolean isRunning = false;
-    private String level;
+    private GameConfiguration.Level level;
 
 
     public static int bomb_number = 10;
@@ -187,7 +187,7 @@ public class GameEngine {
     }
 
     public String getLevel() {
-        return level;
+        return level.name();
     }
 
     public void setGameTime(int gameTime) {

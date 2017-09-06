@@ -20,21 +20,21 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         gameTime = 0;
         // find which level to activate //
-        String level = getIntent().getStringExtra(GameConfiguration.Level.key);
+        GameConfiguration.Level level = GameConfiguration.Level.valueOf(getIntent().getStringExtra(GameConfiguration.GameIntentLevelKey));
 
         tickForEachGameRun();
         String myBombsText = "";
 
         switch (level) {
-            case GameConfiguration.Level.beginner:
+            case beginner:
                 myBombsText = "5 bombs";
                 GameEngine.setLevel(5, 10 ,10);
                 break;
-            case GameConfiguration.Level.skilled:
+            case skilled:
                 myBombsText = "10 bombs";
                 GameEngine.setLevel(10, 10 ,10);
                 break;
-            case GameConfiguration.Level.expert:
+            case expert:
                 myBombsText = "10 bombs";
                 GameEngine.setLevel(10, 5 ,5);
                 break;

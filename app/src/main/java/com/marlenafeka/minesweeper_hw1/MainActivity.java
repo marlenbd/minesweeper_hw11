@@ -22,28 +22,28 @@ public class MainActivity extends Activity {
         buttonBeginner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentBeginner = new Intent(MainActivity.this, GameActivity.class);
-                intentBeginner.putExtra(GameConfiguration.Level.key, GameConfiguration.Level.beginner);
-                startActivity(intentBeginner);
+                goToLevel(GameConfiguration.Level.beginner);
             }
         });
 
         buttonSkilled.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentSkilled = new Intent(MainActivity.this, GameActivity.class);
-                intentSkilled.putExtra(GameConfiguration.Level.key, GameConfiguration.Level.skilled);
-                startActivity(intentSkilled);
+                goToLevel(GameConfiguration.Level.skilled);
             }
         });
 
         buttonExpert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentExpert = new Intent(MainActivity.this, GameActivity.class);
-                intentExpert.putExtra(GameConfiguration.Level.key, GameConfiguration.Level.expert);
-                startActivity(intentExpert);
+                goToLevel(GameConfiguration.Level.expert);
             }
         });
+    }
+
+    private void goToLevel(GameConfiguration.Level level) {
+        Intent gameIntent = new Intent(MainActivity.this, GameActivity.class);
+        gameIntent.putExtra(GameConfiguration.GameIntentLevelKey, level.name());
+        startActivity(gameIntent);
     }
 }
