@@ -4,13 +4,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.util.Log;
 import android.view.Gravity;
-import android.widget.Adapter;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
+import com.marlenafeka.minesweeper_hw1.game.GameConfiguration;
 import com.marlenafeka.minesweeper_hw1.util.Generator;
 import com.marlenafeka.minesweeper_hw1.util.PrintGrid;
 import com.marlenafeka.minesweeper_hw1.views.grid.Cell;
@@ -180,12 +176,12 @@ public class GameEngine {
         GameEngine.height = height;
 
         if( bomb_number == 5 ) {
-            getInstance().level = "beginner";
+            getInstance().level = GameConfiguration.Level.beginner;
         } else {
             if( width == 10 ) {
-                getInstance().level = "skilled";
+                getInstance().level = GameConfiguration.Level.skilled;
             } else {
-                getInstance().level = "expert";
+                getInstance().level = GameConfiguration.Level.expert;
             }
         }
     }

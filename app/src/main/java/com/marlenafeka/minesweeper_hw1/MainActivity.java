@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.marlenafeka.minesweeper_hw1.views.grid.Grid;
+import com.marlenafeka.minesweeper_hw1.game.GameConfiguration;
 
 public class MainActivity extends Activity {
 
@@ -23,7 +23,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent intentBeginner = new Intent(MainActivity.this, GameActivity.class);
-                intentBeginner.putExtra("level", "beginner");
+                intentBeginner.putExtra(GameConfiguration.Level.key, GameConfiguration.Level.beginner);
                 startActivity(intentBeginner);
             }
         });
@@ -32,7 +32,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent intentSkilled = new Intent(MainActivity.this, GameActivity.class);
-                intentSkilled.putExtra("level", "skilled");
+                intentSkilled.putExtra(GameConfiguration.Level.key, GameConfiguration.Level.skilled);
                 startActivity(intentSkilled);
             }
         });
@@ -41,7 +41,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent intentExpert = new Intent(MainActivity.this, GameActivity.class);
-                intentExpert.putExtra("level", "expert");
+                intentExpert.putExtra(GameConfiguration.Level.key, GameConfiguration.Level.expert);
                 startActivity(intentExpert);
             }
         });

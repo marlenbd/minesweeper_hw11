@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.marlenafeka.minesweeper_hw1.game.GameConfiguration;
+
 import java.text.ParseException;
 
 public class GameActivity extends AppCompatActivity {
@@ -18,21 +20,21 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         gameTime = 0;
         // find which level to activate //
-        String level = getIntent().getStringExtra("level");
+        String level = getIntent().getStringExtra(GameConfiguration.Level.key);
 
         tickForEachGameRun();
         String myBombsText = "";
 
         switch (level) {
-            case "beginner":
+            case GameConfiguration.Level.beginner:
                 myBombsText = "5 bombs";
                 GameEngine.setLevel(5, 10 ,10);
                 break;
-            case "skilled":
+            case GameConfiguration.Level.skilled:
                 myBombsText = "10 bombs";
                 GameEngine.setLevel(10, 10 ,10);
                 break;
-            case "expert":
+            case GameConfiguration.Level.expert:
                 myBombsText = "10 bombs";
                 GameEngine.setLevel(10, 5 ,5);
                 break;
