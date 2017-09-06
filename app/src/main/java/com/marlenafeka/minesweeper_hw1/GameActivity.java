@@ -23,35 +23,37 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
         gameTime = 0;
         // find which level to activate //
         String level = getIntent().getStringExtra("level");
 
         tickForEachGameRun();
+        String myBombsText = "";
+
         switch (level) {
             case "beginner":
-                TextView myBombs = (( TextView)findViewById(R.id.textBombs));
-                myBombs.setText("5 bombs");
+                myBombsText = "5 bombs";
                 GameEngine.setLevel(5, 10 ,10);
                 GameEngine.getInstance().setRunning(true);
                 GameEngine.getInstance().createGrid(this);
                 break;
             case "skilled":
-                myBombs = (( TextView)findViewById(R.id.textBombs));
-                myBombs.setText("10 bombs");
+                myBombsText = "10 bombs";
                 GameEngine.setLevel(10, 10 ,10);
                 GameEngine.getInstance().setRunning(true);
                 GameEngine.getInstance().createGrid(this);
                 break;
             case "expert":
-                myBombs = (( TextView)findViewById(R.id.textBombs));
-                myBombs.setText("10 bombs");
+                myBombsText = "10 bombs";
                 GameEngine.setLevel(10, 5 ,5);
                 GameEngine.getInstance().setRunning(true);
                 GameEngine.getInstance().createGrid(this);
                 break;
         }
+
+        setContentView(R.layout.activity_game);
+        TextView myBombs = (( TextView)findViewById(R.id.textBombs));
+        myBombs.setText(myBombsText);
 
         Button buttonSmiley = (Button)findViewById(R.id.buttonSmiley);
         buttonSmiley.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +81,6 @@ public class GameActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 if (GameEngine.getInstance().isRunning()) {
-
                     tickForEachGameRun();
                 } else {
                     gameTime = 0;
