@@ -19,11 +19,6 @@ import java.text.ParseException;
 public class EndGameActivity extends AppCompatActivity {
 
     @Override
-    public void onBackPressed() {
-        Toast.makeText(EndGameActivity.this, "Back button is disabled", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_game);
