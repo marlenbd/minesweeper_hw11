@@ -1,20 +1,15 @@
 package com.marlenafeka.minesweeper_hw1;
 
-import android.nfc.Tag;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import com.marlenafeka.minesweeper_hw1.game.GameConfiguration;
 
-import java.text.NumberFormat;
 import java.text.ParseException;
 
 public class GameActivity extends AppCompatActivity {
@@ -23,35 +18,34 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
         gameTime = 0;
         // find which level to activate //
-        String level = getIntent().getStringExtra("level");
+        GameConfiguration.Level level = GameConfiguration.Level.valueOf(getIntent().getStringExtra(GameConfiguration.GameIntentLevelKey));
 
         tickForEachGameRun();
+        String myBombsText = "";
+
         switch (level) {
-            case "beginner":
-                TextView myBombs = (( TextView)findViewById(R.id.textBombs));
-                myBombs.setText("5 bombs");
+            case beginner:
+                myBombsText = "5 bombs";
                 GameEngine.setLevel(5, 10 ,10);
-                GameEngine.getInstance().setRunning(true);
-                GameEngine.getInstance().createGrid(this);
                 break;
-            case "skilled":
-                myBombs = (( TextView)findViewById(R.id.textBombs));
-                myBombs.setText("10 bombs");
+            case skilled:
+                myBombsText = "10 bombs";
                 GameEngine.setLevel(10, 10 ,10);
-                GameEngine.getInstance().setRunning(true);
-                GameEngine.getInstance().createGrid(this);
                 break;
-            case "expert":
-                myBombs = (( TextView)findViewById(R.id.textBombs));
-                myBombs.setText("10 bombs");
+            case expert:
+                myBombsText = "10 bombs";
                 GameEngine.setLevel(10, 5 ,5);
-                GameEngine.getInstance().setRunning(true);
-                GameEngine.getInstance().createGrid(this);
                 break;
         }
+
+        GameEngine.getInstance().setRunning(true);
+        GameEngine.getInstance().createGrid(this);
+
+        setContentView(R.layout.activity_game);
+        TextView myBombs = (( TextView)findViewById(R.id.textBombs));
+        myBombs.setText(myBombsText);
 
         Button buttonSmiley = (Button)findViewById(R.id.buttonSmiley);
         buttonSmiley.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +73,6 @@ public class GameActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 if (GameEngine.getInstance().isRunning()) {
-
                     tickForEachGameRun();
                 } else {
                     gameTime = 0;

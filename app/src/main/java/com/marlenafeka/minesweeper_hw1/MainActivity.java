@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.marlenafeka.minesweeper_hw1.views.grid.Grid;
+import com.marlenafeka.minesweeper_hw1.game.GameConfiguration;
 
 public class MainActivity extends Activity {
 
@@ -22,28 +22,28 @@ public class MainActivity extends Activity {
         buttonBeginner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentBeginner = new Intent(MainActivity.this, GameActivity.class);
-                intentBeginner.putExtra("level", "beginner");
-                startActivity(intentBeginner);
+                goToLevel(GameConfiguration.Level.beginner);
             }
         });
 
         buttonSkilled.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentSkilled = new Intent(MainActivity.this, GameActivity.class);
-                intentSkilled.putExtra("level", "skilled");
-                startActivity(intentSkilled);
+                goToLevel(GameConfiguration.Level.skilled);
             }
         });
 
         buttonExpert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentExpert = new Intent(MainActivity.this, GameActivity.class);
-                intentExpert.putExtra("level", "expert");
-                startActivity(intentExpert);
+                goToLevel(GameConfiguration.Level.expert);
             }
         });
+    }
+
+    private void goToLevel(GameConfiguration.Level level) {
+        Intent gameIntent = new Intent(MainActivity.this, GameActivity.class);
+        gameIntent.putExtra(GameConfiguration.GameIntentLevelKey, level.name());
+        startActivity(gameIntent);
     }
 }
